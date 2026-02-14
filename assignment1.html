@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Entrance Exam Registration</title>
+    <style>
+        body {
+            font-family: Arial;
+        }
+        .container {
+            width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 6px;
+            margin: 5px 0 10px 0;
+        }
+        input[type="submit"] {
+            cursor: pointer;
+        }
+        .output {
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            display: none;
+        }
+    </style>
+    <script>
+        function validateEntranceForm() {
+            var name = document.getElementById("name").value.trim();
+            var dob = document.getElementById("dob").value;
+            var age = document.getElementById("age").value;
+            var phone = document.getElementById("phone").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var stream = document.getElementById("stream").value;
+            var agree = document.getElementById("agree").checked;
+
+            var namePattern = /^[A-Za-z ]+$/;
+            var phonePattern = /^(98|97)\d{8}$/;
+            var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            if (!name || !dob || !age || !phone || !email) { alert("All fields are required"); return false;}
+            if (!namePattern.test(name)) { alert("Name letters only"); return false;}
+            if (age < 16 || age > 30) { alert("Age 16-30"); return false;}
+            if (!phonePattern.test(phone)) { alert("Phone must start 98/97 and 10 digits"); return false;}
+            if (!emailPattern.test(email)) { alert("Invalid email"); return false;}
+            if (!gender) { alert("Select gender"); return false;}
+            if (stream=="default") { alert("Select stream"); return false;}
+            if (!agree) { alert("Agree to confirm"); return false;}
+
+            alert("Registration Successful!");
+
+            var output = document.getElementById("outputEntrance");
+            output.style.display = "block";
+            output.innerHTML = "<b>Registration Details:</b><br>Name: "+name+"<br>DOB: "+dob+"<br>Age: "+age+"<br>Phone: "+phone+"<br>Email: "+email+"<br>Gender: "+gender.value+"<br>Stream: "+stream;
+
+            document.getElementById("formEntrance").reset();
+            return false;
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Entrance Exam Registration</h2>
+    <form id="formEntrance" onsubmit="return validateEntranceForm()">
+        Full Name:<br>
+        <input type="text" id="name" value="Bhumika Ganesh"><br>
+
+        Date of Birth:<br>
+        <input type="date" id="dob"><br>
+
+        Age:<br>
+        <input type="number" id="age"><br>
+
+        Phone Number:<br>
+        <input type="text" id="phone"><br>
+
+        Email Address:<br>
+        <input type="text" id="email"><br>
+
+        Gender:<br>
+        <input type="radio" name="gender" value="Male"> Male
+        <input type="radio" name="gender" value="Female"> Female
+        <input type="radio" name="gender" value="Other"> Other<br>
+
+        Exam Stream:<br>
+        <select id="stream">
+            <option value="default">--Select--</option>
+            <option>Science</option>
+            <option>Management</option>
+            <option>Arts</option>
+        </select><br>
+
+        <input type="checkbox" id="agree"> I confirm all details<br><br>
+
+        <input type="submit" value="Register">
+    </form>
+    <div id="outputEntrance" class="output"></div>
+</div>
+
+</body>
+</html>

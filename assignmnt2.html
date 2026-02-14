@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Mark Sheet Generator</title>
+    <style>
+        body { font-family: Arial; }
+        .container { width: 400px; margin: 20px auto; padding: 15px; border:1px solid #ccc; border-radius:5px; }
+        input { width: 100%; padding:6px; margin:5px 0 10px 0; }
+        input[type="submit"] { cursor: pointer; }
+        .output { margin-top:10px; padding:8px; border:1px solid #ccc; display:none; }
+    </style>
+    <script>
+        function generateMarksheet() {
+            var name = document.getElementById("name").value.trim();
+            var roll = document.getElementById("roll").value;
+            var eng = document.getElementById("english").value;
+            var math = document.getElementById("math").value;
+            var sci = document.getElementById("science").value;
+
+            if (!name || !roll || !eng || !math || !sci) { alert("All fields required"); return false;}
+            eng = parseInt(eng); math = parseInt(math); sci = parseInt(sci);
+            if (eng<0 || eng>100 || math<0 || math>100 || sci<0 || sci>100) { alert("Marks must be 0-100"); return false;}
+
+            var total = eng+math+sci;
+            var percent = total/3;
+            var result = (eng>=40 && math>=40 && sci>=40)? "Pass":"Fail";
+            var grade = percent>=80?"A":percent>=60?"B":percent>=40?"C":"Fail";
+
+            alert("Marksheet generated successfully!");
+
+            var output = document.getElementById("outputMarks");
+            output.style.display="block";
+            output.innerHTML = "<b>Mark Sheet:</b><br>Name: "+name+"<br>Roll No: "+roll+"<br>Total Marks: "+total+"<br>Percentage: "+percent.toFixed(2)+"%<br>Result: "+result+"<br>Grade: "+grade;
+
+            document.getElementById("formMarks").reset();
+            return false;
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Student Mark Sheet Generator</h2>
+    <form id="formMarks" onsubmit="return generateMarksheet()">
+        Student Name:<br>
+        <input type="text" id="name" value="Bhumika Ganesh"><br>
+
+        Roll Number:<br>
+        <input type="number" id="roll" value=6><br>
+
+        Marks in English (0-100):<br>
+        <input type="number" id="english"><br>
+
+        Marks in Math (0-100):<br>
+        <input type="number" id="math"><br>
+
+        Marks in Science (0-100):<br>
+        <input type="number" id="science"><br>
+
+        <input type="submit" value="Generate Mark Sheet">
+    </form>
+    <div id="outputMarks" class="output"></div>
+</div>
+</body>
+</html>

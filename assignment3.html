@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIM Card Registration Form</title>
+    <style>
+        body { font-family: Arial; }
+        .container { width: 400px; margin: 20px auto; padding: 15px; border:1px solid #ccc; border-radius:5px; }
+        input, select, textarea { width: 100%; padding:6px; margin:5px 0 10px 0; }
+        input[type="submit"] { cursor: pointer; }
+        .output { margin-top:10px; padding:8px; border:1px solid #ccc; display:none; }
+        textarea { resize: none; }
+    </style>
+    <script>
+        function toggleExperience() {
+            document.getElementById("expDetails").style.display = document.getElementById("expYes").checked ? "block":"none";
+        }
+
+        function validateSimForm() {
+            var name = document.getElementById("name").value.trim();
+            var citizenship = document.getElementById("citizenship").value.trim();
+            var dob = document.getElementById("dob").value;
+            var nationality = document.getElementById("nationality").value;
+            var simType = document.querySelector('input[name="sim"]:checked');
+            var terms = document.getElementById("terms").checked;
+
+            var namePattern = /^[A-Za-z ]+$/;
+
+            if (!name || !citizenship || !dob) { alert("All fields required"); return false;}
+            if (!namePattern.test(name)) { alert("Name letters only"); return false;}
+            if (citizenship.length<10) { alert("Citizenship must be at least 10 characters"); return false;}
+            var birth = new Date(dob); var today = new Date();
+            var age = today.getFullYear() - birth.getFullYear();
+            var m = today.getMonth() - birth.getMonth();
+            if(m<0 || (m===0 && today.getDate()<birth.getDate())) age--;
+            if(age<18){ alert("Age must be 18 or above"); return false;}
+            if(!simType){ alert("Select SIM type"); return false;}
+            if(nationality=="default"){ alert("Select nationality"); return false;}
+            if(!terms){ alert("Accept terms & conditions"); return false;}
+
+            alert("SIM Card Registration Successful!");
+
+            var output = document.getElementById("outputSim");
+            output.style.display="block";
+            output.innerHTML = "<b>SIM Registration Details:</b><br>Name: "+name+"<br>Citizenship: "+citizenship+"<br>DOB: "+dob+"<br>Nationality: "+nationality+"<br>SIM Type: "+simType.value;
+
+            document.getElementById("formSim").reset();
+            document.getElementById("expDetails").style.display="none";
+            return false;
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>SIM Card Registration Form</h2>
+    <form id="formSim" onsubmit="return validateSimForm()">
+        Full Name:<br>
+        <input type="text" id="name" value="Bhumika Ganesh"><br>
+
+        Citizenship Number:<br>
+        <input type="text" id="citizenship"><br>
+
+        SIM Type:<br>
+        <input type="radio" name="sim" value="Prepaid"> Prepaid
+        <input type="radio" name="sim" value="Postpaid"> Postpaid<br>
+
+        Date of Birth:<br>
+        <input type="date" id="dob"><br>
+
+        Nationality:<br>
+        <select id="nationality">
+            <option value="default">--Select--</option>
+            <option>Nepali</option>
+            <option>Indian</option>
+            <option>Chinese</option>
+            <option>Korean</option>
+            <option>Japanese</option>
+            <option>Other</option>
+        </select><br>
+
+        <input type="checkbox" id="terms"> Accept Terms & Conditions<br><br>
+
+        <input type="submit" value="Register SIM">
+    </form>
+    <div id="outputSim" class="output"></div>
+</div>
+</body>
+</html>

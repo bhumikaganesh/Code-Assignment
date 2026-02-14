@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Appointment Booking</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            width: 420px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0 15px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: grey;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: grey;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9f7ef;
+            border-left: 5px solid grey;
+            display: none;
+        }
+    </style>
+
+    <script>
+        function validateForm() {
+
+            var name = document.getElementById("name").value.trim();
+            var age = document.getElementById("age").value;
+            var phone = document.getElementById("phone").value.trim();
+            var department = document.getElementById("department").value;
+            var date = document.getElementById("date").value;
+            var time = document.getElementById("time").value;
+
+            var namePattern = /^[A-Za-z ]+$/;
+            var phonePattern = /^(98|97)[0-9]{8}$/;
+
+            if (name == "" || !namePattern.test(name)) {
+                alert("Name is required (letters only).");
+                return false;
+            }
+
+            if (age == "" || age <= 0) {
+                alert("Age must be greater than 0.");
+                return false;
+            }
+
+            if (!phonePattern.test(phone)) {
+                alert("Phone must be 10 digits and start with 98 or 97.");
+                return false;
+            }
+
+            if (department == "default") {
+                alert("Please select department.");
+                return false;
+            }
+
+            if (time == "default") {
+                alert("Please select time slot.");
+                return false;
+            }
+
+            if (date == "") {
+                alert("Please select appointment date.");
+                return false;
+            }
+
+            var today = new Date();
+            var selectedDate = new Date(date);
+            today.setHours(0,0,0,0);
+
+            if (selectedDate < today) {
+                alert("Appointment date cannot be in the past.");
+                return false;
+            }
+
+            //confirmation alert
+            alert("Appointment booked successfully for " + name + "!");
+
+            //output preview
+            var outputBox = document.getElementById("output");
+            outputBox.style.display = "block";
+            outputBox.innerHTML =
+                "<b>Appointment Details:</b><br>" +
+                "Patient Name: " + name + "<br>" +
+                "Age: " + age + "<br>" +
+                "Phone: " + phone + "<br>" +
+                "Department: " + department + "<br>" +
+                "Date: " + date + "<br>" +
+                "Time Slot: " + time;
+
+            // Auto clear form
+            document.getElementById("appointmentForm").reset();
+
+            return false;
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Hospital Appointment Booking</h2>
+
+    <form id="appointmentForm" onsubmit="return validateForm()">
+
+        Patient Name:
+        <input type="text" id="name" value="Bhumika Ganesh">
+
+        Age:
+        <input type="number" id="age" value=20>
+
+        Phone Number:
+        <input type="text" id="phone">
+
+        Department:
+        <select id="department">
+            <option value="default">--Select Department--</option>
+            <option>Cardiology</option>
+            <option>Orthopedics</option>
+            <option>Neurology</option>
+            <option>Pediatrics</option>
+        </select>
+
+        Appointment Date:
+        <input type="date" id="date">
+
+        Time Slot:
+        <select id="time">
+            <option value="default">--Select Time Slot--</option>
+            <option>9:00 AM - 10:00 AM</option>
+            <option>10:00 AM - 11:00 AM</option>
+            <option>11:00 AM - 12:00 PM</option>
+            <option>2:00 PM - 3:00 PM</option>
+        </select>
+
+        <input type="submit" value="Book Appointment">
+
+    </form>
+
+    <div id="output" class="output"></div>
+</div>
+
+</body>
+</html>

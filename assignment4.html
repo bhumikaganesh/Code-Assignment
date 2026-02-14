@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Course Enrollment Form</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background: grey;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background: grey;
+        }
+    </style>
+
+    <script>
+        function toggleExperience() {
+            var expYes = document.getElementById("expYes").checked;
+            var box = document.getElementById("experienceDetails");
+
+            if (expYes) {
+                box.style.display = "block";
+            } else {
+                box.style.display = "none";
+            }
+        }
+
+        function validateForm() {
+
+            var name = document.getElementById("name").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var course = document.getElementById("course").value;
+            var mode = document.querySelector('input[name="mode"]:checked');
+            var experience = document.querySelector('input[name="experience"]:checked');
+            var details = document.getElementById("details").value.trim();
+
+            // Email Format 
+            var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            if (name == "" || email == "") {
+                alert("Name and Email are required.");
+                return false;
+            }
+
+            // Email Validation
+            if (!emailPattern.test(email)) {
+                alert("Email must be in valid format (example: student@gmail.com)");
+                return false;
+            }
+
+            if (course == "default") {
+                alert("Please select a course.");
+                return false;
+            }
+
+            if (!mode) {
+                alert("Please select mode of study.");
+                return false;
+            }
+
+            if (!experience) {
+                alert("Please select previous experience option.");
+                return false;
+            }
+
+            if (document.getElementById("expYes").checked && details == "") {
+                alert("Please enter experience details.");
+                return false;
+            }
+
+            alert("Enrollment Successful!");
+            return false;
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Online Course Enrollment</h2>
+
+    <form onsubmit="return validateForm()">
+
+        Student Name:
+        <input type="text" id="name" value="Bhumika Ganesh">
+
+        Email:
+        <input type="text" id="email" placeholder="example@gmail.com">
+
+        Course Name:
+        <select id="course">
+            <option value="default">--Select Course--</option>
+            <option>Web Development</option>
+            <option>Graphic Design</option>
+            <option>Digital Marketing</option>
+        </select>
+
+        Mode of Study:
+        <br>
+        <input type="radio" name="mode" value="Online"> Online
+        <input type="radio" name="mode" value="Offline"> Offline
+        <br><br>
+
+        Previous Experience:
+        <br>
+        <input type="radio" name="experience" value="Yes" id="expYes" onclick="toggleExperience()"> Yes
+        <input type="radio" name="experience" value="No" onclick="toggleExperience()"> No
+        <br><br>
+
+        <div id="experienceDetails" style="display:none;">
+            Experience Details:
+            <textarea id="details" rows="4"></textarea>
+        </div>
+
+        <input type="submit" value="Enroll">
+
+    </form>
+</div>
+
+</body>
+</html>
